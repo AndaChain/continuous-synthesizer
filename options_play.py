@@ -94,14 +94,27 @@ def normalize_folder_string(folder):
 def get_options():
     options = {}
     #options["device"] = 0
+    options["waveform"] = "square"
     options["waveform"] = "sine"
     options["waveform"] = "triangle"
-    options["waveform"] = "square"
-    options["size_x"] = 1920
-    options["size_y"] = 900
+    options["waveform"] = "sawtooth"
+    options["size_x"] = 1333
+    options["size_y"] = 733
     options["frequency_board"] = os.path.join("./frequency_boards/", "test.txt")
-    options["transition_size"] = 0.89  # large value means small size
-    options["transposition_factor"] = 2.3
-    options["no_of_voices"] = 3
+    options["transition_size"] = 0.8  # large value means big size
+    options["transposition_factor"] = 1.0
+    options["no_of_voices"] = 2
+    options["attack_time"] = 0.95
+    options["release_time"] = 0.94
+    options["decay_time"] = 0.1
+    options["after_decay_level"] = 1.0
+    options["no_of_bass_voices"] = 1
+    options["bass_attack_time"] = 0.8
+    options["bass_release_time"] = 0.3
+    options["bass_decay_time"] = 0.01
+    options["bass_after_decay_level"] = 1.0
+    options["wildcard_frequency"] = 90.0
+    options["bass_frequencies_filename"] = os.path.join("./bass_frequencies/", "test.txt")
+
     # options[""] =
     return options

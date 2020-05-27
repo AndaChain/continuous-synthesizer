@@ -1,13 +1,15 @@
 import math
 import numpy as np
+import sys
 
 class FrequencyBoard:
-    def __init__(self, size_x, size_y, filename, transition_size):
+    def __init__(self, size_x, size_y, filename, transition_size, wildcard_frequency=40.0):
         self.size_x = size_x
         self.size_y = size_y
         self.filename = filename
         self.transition_size = transition_size
         self.row_frequencies = None
+        self.wildcard_frequency = wildcard_frequency
         self.frequencies = np.zeros((size_y, size_x))
         self.colors = np.ones((size_y, size_x, 3), dtype=np.uint8) \
                       * np.ones((size_y, size_x, 1), dtype=np.uint8)
@@ -63,18 +65,20 @@ class FrequencyBoard:
     def load_file(self, filename):
         frequencies = []
         with open(filename) as infile:
-            lines = infile.read().split("\n")
+            in_string = infile.read()
+            in_string = " ".join(in_string.split(" "))
+            lines = in_string.split("\n")
             for line in lines:
-                if line != "":
+                if line != "" and not "#" in line:
                     value_strings = line.split(" ")
                     values = []
                     for s in value_strings:
-                        factors = s.split("*")
-                        factors = [float(f) for f in factors]
-                        freq = factors[0]
-                        for f in factors[1:]:
-                            freq *= f
-                        values.append(freq)
+                        if is_eval_string_save(s):
+                            s = s.replace("_", str(float(self.wildcard_frequency)))
+                            values.append(eval(s))
+                        else:
+                            print("Forbidden string " + s)
+                            sys.exit()
                     frequencies.append(values)
         self.row_frequencies = frequencies
 
@@ -94,7 +98,8 @@ class FrequencyBoard:
         elif index_start != index_end:
             x_start = frequency_centers[index_start]
             x_end = frequency_centers[index_end]
-            factor = get_transition_factor(x, x_start, x_end, self.transition_size)
+            f = 1.0 - self.transition_size
+            factor = get_transition_factor(x, x_start, x_end, f)
             if factor < 0.5:
                 res_factor = 1.0 - 2.0 * factor
             else:
@@ -119,7 +124,8 @@ class FrequencyBoard:
         elif index_start != index_end:
             x_start = frequency_centers[index_start]
             x_end = frequency_centers[index_end]
-            factor = get_transition_factor(x, x_start, x_end, self.transition_size)
+            f = 1.0 - self.transition_size
+            factor = get_transition_factor(x, x_start, x_end, f)
             frequency_start = self.row_frequencies[row_no][index_start]
             frequency_end = self.row_frequencies[row_no][index_end]
             log_start = math.log(frequency_start)
@@ -144,13 +150,31 @@ class FrequencyBoard:
         index_end = min(int( (x + frequency_centers[0]) / dx ), no_of_frequencies - 1)
         return index_start, index_end, frequency_centers, row_no
 
-def get_transition_factor(x, x_start, x_end, transition_size):
+
+    def get_bass_frequencies(self, filename):
+        frequencies = []
+        with open(filename) as infile:
+            in_string = infile.read()
+            in_string = " ".join(in_string.split(" "))
+            in_string.replace(" ", "\n")
+            lines = in_string.split("\n")
+            for line in lines:
+                if line != "" and not "#" in line:
+                    if is_eval_string_save(line):
+                        line = line.replace("_", str(float(self.wildcard_frequency)))
+                        frequencies.append(eval(line))
+                    else:
+                        print("get_bass_frequencies(): Forbidden string " + s)
+                        sys.exit()
+        return frequencies
+
+def get_transition_factor(x, x_start, x_end, f):
     """
-    transition_size between 0 (no transition) and
+    f between 0 (no transition) and
     1 (uses the complete space)
     """
     delta_x = x_end - x_start
-    delta_transition = transition_size * 0.5 * delta_x
+    delta_transition = f * 0.5 * delta_x
     if x < x_start + delta_transition:
         return 0.0
     elif x > x_end - delta_transition:
@@ -160,3 +184,16 @@ def get_transition_factor(x, x_start, x_end, transition_size):
         diff = x - (x_start + delta_transition)
         factor = diff / full_transition_length
         return factor
+
+
+
+
+
+def is_eval_string_save(s):
+    only_numbers_and_operators = True
+    allowed_characters = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "/", ".", "(", ")", "_"]
+    for c in s:
+        if not c in allowed_characters:
+            only_numbers_and_operators = False
+            break
+    return only_numbers_and_operators

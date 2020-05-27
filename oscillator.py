@@ -6,6 +6,9 @@ def triangle(phase):
     else:
         return -1.0 + (phase - 0.5) * 4.0
 
+def sawtooth(phase):
+    return 1.0 - phase * 2.0
+
 def square(phase):
     if phase < 0.5:
         return 1.0
@@ -28,6 +31,8 @@ class Oscillator:
             self.osc_function = triangle
         elif self.waveform == "square":
             self.osc_function = square
+        elif self.waveform == "sawtooth":
+            self.osc_function = sawtooth
 
     def step(self):
         """
