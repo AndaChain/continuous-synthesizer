@@ -1,19 +1,5 @@
 import math
 
-def triangle(phase):
-    if phase < 0.5:
-        return 1.0 - phase * 4.0
-    else:
-        return -1.0 + (phase - 0.5) * 4.0
-
-def sawtooth(phase):
-    return 1.0 - phase * 2.0
-
-def square(phase):
-    if phase < 0.5:
-        return 1.0
-    else:
-        return -1.0
 
 class Oscillator:
     def __init__(self, waveform="sine", dt=None, frequency=100.0):
@@ -49,11 +35,17 @@ class Oscillator:
 
 
 
+def triangle(phase):
+    if phase < 0.5:
+        return 1.0 - phase * 4.0
+    else:
+        return -1.0 + (phase - 0.5) * 4.0
 
+def sawtooth(phase):
+    return 1.0 - phase * 2.0
 
-
-def main():
-    o = Oscillator()
-
-if __name__ == '__main__':
-    main()
+def square(phase):
+    if phase < 0.5:
+        return 1.0
+    else:
+        return -1.0
