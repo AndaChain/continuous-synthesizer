@@ -27,16 +27,25 @@ class Synth:
         self.current_bass_voice_index = 0
         self.samplerate = samplerate
 
-        self.oscillators = [Oscillator(waveform=waveform, dt=1.0/self.samplerate, frequency=100.0) \
+        self.oscillators = [Oscillator(waveform=waveform, \
+                            dt=1.0/self.samplerate, frequency=100.0) \
                             for i in range(self.no_of_voices)]
-        self.bass_oscillators = [Oscillator(waveform=waveform, dt=1.0/self.samplerate, frequency=100.0) \
+        self.bass_oscillators = [Oscillator(waveform=waveform, \
+                                dt=1.0/self.samplerate, frequency=100.0) \
                                 for i in range(self.no_of_bass_voices)]
 
 
         self.transposition_factor = transposition_factor
-        self.envelopes = [envelope.Envelope(attack_time=attack_time, decay_time=decay_time, after_decay_level=after_decay_level, release_time=release_time) for i in range(self.no_of_voices)]
-        self.bass_envelopes = [envelope.Envelope(attack_time=bass_attack_time, decay_time=bass_decay_time, after_decay_level=bass_after_decay_level, release_time=bass_release_time) for i in range(self.no_of_bass_voices)]
-
+        self.envelopes = [envelope.Envelope(attack_time=attack_time, \
+                          decay_time=decay_time, \
+                          after_decay_level=after_decay_level, \
+                          release_time=release_time) \
+                          for i in range(self.no_of_voices)]
+        self.bass_envelopes = [envelope.Envelope(attack_time=bass_attack_time, \
+                               decay_time=bass_decay_time,\
+                               after_decay_level=bass_after_decay_level,\
+                               release_time=bass_release_time)\
+                               for i in range(self.no_of_bass_voices)]
         self.start_envelope = False
         self.release_envelope = False
         self.start_bass_envelope = False
@@ -71,13 +80,6 @@ class Synth:
 
 
     def __call__(self, outdata, frames, time, status):
-        # if status:
-        #     print(status)
-        # t = (self.start_idx + np.arange(frames)) * self.dt * 2.0 * np.pi * self.frequency
-        # #print(t)
-        # t = t.reshape(-1, 1)
-        # outdata[:] = self.amplitude * np.sin(t)
-        # self.start_idx += frames
         if self.start_envelope:
             self.start_envelope = False
             current_env_value = self.envelopes[self.current_voice_index].current_value
@@ -102,7 +104,6 @@ class Synth:
 
 
         for i in range(frames):
-            #print( )
             v = 0.0
             for k in range(self.no_of_voices):
                 v += self.oscillators[k].get() * self.envelopes[k]()
