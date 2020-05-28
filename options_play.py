@@ -25,8 +25,14 @@ def get_parser():
     parser.add_argument("-t", "--transition", required=False)
     parser.add_argument("-b", "--frequencyboard", required=False)
     parser.add_argument("-p", "--transpositionfactor", required=False)
+    parser.add_argument("-s", "--fullscreen", required=False)
     return parser
 
+def get_true_strings():
+    """
+    These strings can be used to convert option strings to boolean.
+    """
+    return ["True", "true", "t", "T", "1"]
 
 
 def get_options_from_config(config):
@@ -51,6 +57,7 @@ def get_options_from_config(config):
     options["wildcard_frequency"] = float(config["wildcard_frequency"])
     options["samplerate"] = int(config["samplerate"])
     options["volume"] = float(config["volume"])
+    options["fullscreen"] = True if config["fullscreen"] in get_true_strings() else False
     return options
 
 
@@ -69,6 +76,8 @@ def replace_options_from_command_line(options, args):
         options["frequency_board"] = args["frequencyboard"]
     if args["transpositionfactor"]:
         options["transposition_factor"] = float(args["transpositionfactor"])
+    if args["fullscreen"]:
+        options["fullscreen"] = True if args["fullscreen"] in get_true_strings() else False
 
 
 def get_options():

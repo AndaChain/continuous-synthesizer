@@ -4,6 +4,7 @@ import options_play
 from frequency_board import FrequencyBoard
 from synth import Synth
 from sets import Set
+import os
 
 def main():
     options = options_play.get_options()
@@ -24,15 +25,27 @@ def main():
                   bass_after_decay_level=options["bass_after_decay_level"],
                   volume=options["volume"])
 
+    # set-up pygame dislay
+    full_screen = options["fullscreen"]
+    pygame.init()
+    if full_screen:
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
+        info = pygame.display.Info()
+        options["size_x"] = info.current_w
+        options["size_y"] = info.current_h
+        display = pygame.display.set_mode((info.current_w, info.current_h), pygame.NOFRAME)
+    else:
+        display = pygame.display.set_mode((options["size_x"], options["size_y"]))
+
+
     freq_board = FrequencyBoard(options["size_x"], options["size_y"],
                            filename=options["frequency_board"],
                            transition_size=options["transition_size"],
                            wildcard_frequency=options["wildcard_frequency"])
 
 
-    # set-up dislay
-    pygame.init()
-    display = pygame.display.set_mode((options["size_x"], options["size_y"]))
+
+
     for ix in range(options["size_x"]):
         for iy in range(options["size_y"]):
             color =  freq_board.colors[iy][ix][::-1]
@@ -54,8 +67,6 @@ def main():
             sd.sleep(1)
             keys = pygame.key.get_pressed()
 
-            if keys[pygame.K_F11]:
-                pygame.display.toggle_fullscreen()
 
             for key in list(current_bass_keys):
                 if not keys[key]:
