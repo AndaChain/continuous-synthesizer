@@ -22,6 +22,9 @@ def get_parser():
     parser.add_argument("-y", "--sizey", required=False)
     parser.add_argument("-f", "--wildcard", required=False)
     parser.add_argument("-w", "--waveform", required=False)
+    parser.add_argument("-t", "--transition", required=False)
+    parser.add_argument("-b", "--frequencyboard", required=False)
+    parser.add_argument("-p", "--transpositionfactor", required=False)
     return parser
 
 
@@ -60,6 +63,12 @@ def replace_options_from_command_line(options, args):
         options["wildcard_frequency"] = float(args["wildcard"])
     if args["waveform"]:
         options["waveform"] = args["waveform"]
+    if args["transition"]:
+        options["transition_size"] = float(args["transition"])
+    if args["frequencyboard"]:
+        options["frequency_board"] = args["frequencyboard"]
+    if args["transpositionfactor"]:
+        options["transposition_factor"] = float(args["transpositionfactor"])
 
 
 def get_options():
