@@ -62,9 +62,6 @@ def replace_options_from_command_line(options, args):
         options["waveform"] = args["waveform"]
 
 
-
-
-
 def get_options():
     parser = get_parser()
     parsed_arguments = vars(parser.parse_args())
