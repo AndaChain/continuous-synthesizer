@@ -1,24 +1,17 @@
-# import argparse
-
-# import numpy as np
-
-# import math
-
 import pygame
 import sounddevice as sd
-
 import options_play
 from frequency_board import FrequencyBoard
-
-
 from synth import Synth
+
+
+
 
 
 
 def main():
     options = options_play.get_options()
-    #samplerate = sd.query_devices(options["device"], 'output')['default_samplerate']
-    samplerate = 44100
+    samplerate = options["samplerate"]
     sd.default.samplerate = samplerate
     synth = Synth(no_of_voices=options["no_of_voices"],
                   no_of_bass_voices=1,
@@ -32,7 +25,8 @@ def main():
                   bass_attack_time=options["bass_attack_time"],
                   bass_release_time=options["bass_release_time"],
                   bass_decay_time=options["bass_decay_time"],
-                  bass_after_decay_level=options["bass_after_decay_level"])
+                  bass_after_decay_level=options["bass_after_decay_level"],
+                  volume=options["volume"])
 
     freq_board = FrequencyBoard(options["size_x"], options["size_y"],
                            filename=options["frequency_board"],
