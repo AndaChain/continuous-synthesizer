@@ -40,12 +40,14 @@ class Synth:
         self.envelopes = [envelope.Envelope(attack_time=attack_time, \
                           decay_time=decay_time, \
                           after_decay_level=after_decay_level, \
-                          release_time=release_time) \
+                          release_time=release_time,
+                          dt=1.0/self.samplerate) \
                           for i in range(self.no_of_voices)]
         self.bass_envelopes = [envelope.Envelope(attack_time=bass_attack_time, \
                                decay_time=bass_decay_time,\
                                after_decay_level=bass_after_decay_level,\
-                               release_time=bass_release_time)\
+                               release_time=bass_release_time,
+                               dt=1.0/self.samplerate) \
                                for i in range(self.no_of_bass_voices)]
         self.start_envelope = False
         self.release_envelope = False
