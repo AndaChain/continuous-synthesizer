@@ -20,7 +20,8 @@ class Synth:
                 bass_attack_time=0.01,
                 bass_decay_time=0.01,
                 bass_after_decay_level=1.0,
-                bass_release_time=1.0):
+                bass_release_time=1.0,
+                volume=0.3):
         self.no_of_voices = no_of_voices
         self.no_of_bass_voices = no_of_bass_voices
         self.current_voice_index = 0
@@ -52,7 +53,7 @@ class Synth:
         self.release_bass_envelope = False
         self.is_recording = False
         self.recorded_wave = []
-        self.volume = 0.3
+        self.volume = volume
 
     def set_frequency(self, f):
         self.oscillators[self.current_voice_index].frequency = self.transposition_factor * f
