@@ -19,8 +19,6 @@ class FrequencyBoard:
         self.calculate_colors()
 
 
-
-
     def calculate_colors(self):
         for ix in range(self.size_x):
             for iy in range(self.size_y):
@@ -43,11 +41,6 @@ class FrequencyBoard:
                 line_y = i * dy
                 for iy in range(line_y, line_y + 3):
                     self.colors[iy][ix] = line_color
-
-
-        # import cv2
-        # cv2.imshow("test", self.colors)
-        # cv2.waitKey(5555)
 
 
     def calculate_frequencies_of_pixels(self):
@@ -184,9 +177,6 @@ def get_transition_factor(x, x_start, x_end, f):
         diff = x - (x_start + delta_transition)
         factor = diff / full_transition_length
         return factor
-
-
-
 
 
 def is_eval_string_save(s):
