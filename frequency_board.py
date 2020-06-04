@@ -1,15 +1,17 @@
 import math
 import numpy as np
 import sys
+import random
 
 class FrequencyBoard:
-    def __init__(self, size_x, size_y, filename, transition_size, wildcard_frequency=40.0):
+    def __init__(self, size_x, size_y, filename, transition_size, wildcard_frequency=40.0, shuffle_row_frequencies=False):
         self.size_x = size_x
         self.size_y = size_y
         self.filename = filename
         self.transition_size = transition_size
         self.row_frequencies = None
         self.wildcard_frequency = wildcard_frequency
+        self.shuffle_row_frequencies = shuffle_row_frequencies
         self.frequencies = np.zeros((size_y, size_x))
         self.colors = np.ones((size_y, size_x, 3), dtype=np.uint8) \
                       * np.ones((size_y, size_x, 1), dtype=np.uint8)
@@ -73,7 +75,11 @@ class FrequencyBoard:
                             print("Forbidden string " + s)
                             sys.exit()
                     frequencies.append(values)
+
         self.row_frequencies = frequencies
+        if self.shuffle_row_frequencies:
+            for freqs in self.row_frequencies:
+                random.shuffle(freqs)
 
 
     def get_color_factor_normalized(self, x, y):

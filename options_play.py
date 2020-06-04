@@ -42,6 +42,7 @@ def get_options_from_config(config):
     options["size_x"] = int(config["size_x"])
     options["size_y"] = int(config["size_y"])
     options["frequency_board"] = config["frequency_board"]
+    options["shuffle_row_frequencies"] = True if config["shuffle_row_frequencies"] in get_true_strings() else False
     options["bass_frequencies_filename"] = config["bass_frequencies_filename"]
     options["transition_size"] = float(config["transition_size"])
     options["transposition_factor"] = float(config["transposition_factor"])

@@ -41,7 +41,8 @@ def main():
     freq_board = FrequencyBoard(options["size_x"], options["size_y"],
                            filename=options["frequency_board"],
                            transition_size=options["transition_size"],
-                           wildcard_frequency=options["wildcard_frequency"])
+                           wildcard_frequency=options["wildcard_frequency"],
+                           shuffle_row_frequencies=options["shuffle_row_frequencies"])
 
 
 

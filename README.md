@@ -47,6 +47,8 @@ The width of the window.
 The height of the window.
 * *frequency_board*
 The path to the frequency board, e.g., ./frequency_boards/just_intonation.txt.
+* *shuffle_row_frequencies*
+If this is set to true, the frequencies in each row are randomly reordered.
 * *bass_frequencies_filename*
 The path to the frequencies of the bass notes (played on the keyboard).
 * *transition_size*
