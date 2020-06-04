@@ -13,11 +13,23 @@ This is a synthesizer written in Python. It is played with the mouse. You can ch
 ## Usage
 * Run `python play.py` to load all options from *options.cfg*.
 * Run `python play.py --help` to see a list of command-line parameters which can be used to overwrite the values provided by the options file.
+* The program does not contain a low-pass filter. Hence, pitches with high frequencies may hurt your ears.
 
 ## Manual
 ### What are frequency boards?
 The window of the program shows a colored area which is called frequency board. Each pixel of the window corresponds to a frequency. If the mouse button is held, the synthesizer is retuned to the frequency which is associated to the current cursor position.
 A frequency board is created on the basis of text files (see examples in the folder ./frequency_boards). Those text files may contain several rows with each row being allowed to hold a different number of frequencies. If a row contains, e.g., three frequencies, the program will interpolate between the first and the second and between the second and the third frequency. The size of the interpolation area can be defined in the options file.
+
+### How can I accompany myself?
+You can play additional notes by pressing a, w, s, e, d, f, t, g, z, h, u, j k on your keyboard. The associated frequencies are defined in a text file whose filename is provided in the options file. In this manual, I call this additional voice a bass voice as I usually assign low frequencies to those keys.
+
+### Can I use it in a DAW?
+No.
+
+### Can I record the sound
+The program already contains a function to record and save the sound, but at the current stage it cannot be accessed from the user interface. (I was annoyed by the fact that the saving of a wave file currently takes forever and it interrupts the ability to play.)
+If you want to record the sound, you must use another program to record your desktop sound, e.g., screen recorders.  
+
 
 ### Parameters in options.cfg
 * *fullscreen*
