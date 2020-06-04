@@ -61,9 +61,9 @@ class FrequencyBoard:
         frequencies = []
         with open(filename) as infile:
             in_string = infile.read()
-            in_string = " ".join(in_string.split(" "))
             lines = in_string.split("\n")
             for line in lines:
+                line = " ".join(line.split())
                 if line != "" and not "#" in line:
                     value_strings = line.split(" ")
                     values = []
