@@ -8,6 +8,7 @@ This is a synthesizer written in Python. It is played with the mouse. You can ch
 
 ## Warnings
 * The program has not been optimized for performance. Try to use a very small number of voices.
+* If you run the program in full-screen mode or with large frequency boards, it may take a few seconds to initialize the program. 
 * The program uses the Python function *eval* to evaluate expressions in the text file which defines the frequencies (frequency boards). The eval function is evil and one normally should not use it, but so far, I was too lazy to make it safer. Although it is checked whether the expressions in the text files contain only characters for math operations, you should be careful that you never load any file with malicious commands.
 
 ## Usage
