@@ -23,6 +23,7 @@ def main():
                   bass_release_time=options["bass_release_time"],
                   bass_decay_time=options["bass_decay_time"],
                   bass_after_decay_level=options["bass_after_decay_level"],
+                  bass_transposition_factor=1.0,
                   volume=options["volume"])
 
     # set-up pygame dislay
@@ -62,11 +63,27 @@ def main():
     current_bass_keys =  Set([])
     bass_frequencies = freq_board.get_bass_frequencies(options["bass_frequencies_filename"])
     bass_keys = get_bass_keys()
+    bass_change = 2.0**(1.0/96.0)
+
+    bass_change_pressed = False
 
     with sd.OutputStream(channels=1, callback=synth, samplerate=samplerate):
         while running:
             sd.sleep(1)
             keys = pygame.key.get_pressed()
+
+            # bass transpose
+            if keys[pygame.K_DOWN] and (not bass_change_pressed):
+                synth.bass_transposition_factor /= bass_change
+                print("transpose bass down " + str(synth.bass_transposition_factor))
+                bass_change_pressed = True
+            elif keys[pygame.K_UP] and (not bass_change_pressed):
+                synth.bass_transposition_factor *= bass_change
+                bass_change_pressed = True
+                print("transpose bass up " + str(synth.bass_transposition_factor))
+
+            if not (keys[pygame.K_DOWN] or keys[pygame.K_UP]) and bass_change_pressed:
+                bass_change_pressed = False
 
 
             for key in list(current_bass_keys):

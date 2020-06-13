@@ -21,6 +21,7 @@ class Synth:
                 bass_decay_time=0.01,
                 bass_after_decay_level=1.0,
                 bass_release_time=1.0,
+                bass_transposition_factor=1.0,
                 volume=0.3):
         self.no_of_voices = no_of_voices
         self.no_of_bass_voices = no_of_bass_voices
@@ -37,6 +38,8 @@ class Synth:
 
 
         self.transposition_factor = transposition_factor
+        self.bass_transposition_factor = bass_transposition_factor
+
         self.envelopes = [envelope.Envelope(attack_time=attack_time, \
                           decay_time=decay_time, \
                           after_decay_level=after_decay_level, \
@@ -61,7 +64,7 @@ class Synth:
         self.oscillators[self.current_voice_index].frequency = self.transposition_factor * f
 
     def set_bass_frequency(self, f):
-        self.bass_oscillators[self.current_bass_voice_index].frequency = self.transposition_factor * f
+        self.bass_oscillators[self.current_bass_voice_index].frequency = self.bass_transposition_factor * self.transposition_factor * f
 
 
     def save_wave(self):
