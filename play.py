@@ -73,16 +73,16 @@ def main():
             keys = pygame.key.get_pressed()
 
             # bass transpose
-            if keys[pygame.K_DOWN] and (not bass_change_pressed):
+            if keys[pygame.K_SPACE] and (not bass_change_pressed):
                 synth.bass_transposition_factor /= bass_change
                 print("transpose bass down " + str(synth.bass_transposition_factor))
                 bass_change_pressed = True
-            elif keys[pygame.K_UP] and (not bass_change_pressed):
+            elif keys[pygame.K_LSHIFT] and (not bass_change_pressed):
                 synth.bass_transposition_factor *= bass_change
                 bass_change_pressed = True
                 print("transpose bass up " + str(synth.bass_transposition_factor))
 
-            if not (keys[pygame.K_DOWN] or keys[pygame.K_UP]) and bass_change_pressed:
+            if not (keys[pygame.K_SPACE] or keys[pygame.K_LSHIFT]) and bass_change_pressed:
                 bass_change_pressed = False
 
 
